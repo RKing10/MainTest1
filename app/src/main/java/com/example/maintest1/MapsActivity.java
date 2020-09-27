@@ -154,8 +154,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onClick(View v) {
 
         if (v.getId() == R.id.B_search) {
-
-            EditText tf_location = (EditText)findViewById(R.id.TF_location);
+            EditText tf_location = (EditText) findViewById(R.id.TF_location);
             String location = tf_location.getText().toString();
             List<Address> addressList = null;
             MarkerOptions mo = new MarkerOptions();
