@@ -7,7 +7,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -30,6 +34,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -100,6 +105,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng itarsi = new LatLng(22, 77);
+        LatLng jabalpur = new LatLng(23, 79);
+        LatLng sehore = new LatLng(23, 77);
+        mMap.addMarker(new MarkerOptions().position(itarsi).title("Marker in Itarsi")
+                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_accessibility_new_24)));
+        mMap.addMarker(new MarkerOptions().position(jabalpur).title("Marker in Jabalpur")
+                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_accessibility_new_24)));
+        mMap.addMarker(new MarkerOptions().position(sehore).title("Marker in Sehore")
+                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_baseline_accessibility_new_24)));
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -115,6 +130,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
+    }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable= ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds( 0, 0, vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap= Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas=new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     protected synchronized void buildGoogleApiClient() {
